@@ -1,438 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENSI MODE GACOR 99</title>
+    <title>Web Dalam Pengembangan</title>
     <style>
-        /* Welcome Screen Styles */
-        .welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            z-index: 1000;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            animation: fadeOut 1s ease-in-out 3s forwards;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         
-        .welcome-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
-            animation: glow 2s infinite alternate;
-        }
-        
-        .welcome-subtitle {
-            font-size: 1.2rem;
-            color: #ccc;
-            max-width: 80%;
-            margin: 0 auto;
-        }
-        
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-            }
-            to {
-                text-shadow: 0 0 20px rgba(76, 175, 80, 0.9), 0 0 30px rgba(76, 175, 80, 0.7);
-            }
-        }
-        
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-        
-        /* Login Page Styles */
-        .login-page {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1a1a1a;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .login-container {
-            background-color: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            width: 320px;
-            text-align: center;
-            border: 1px solid #444;
-            color: white;
-        }
-        
-        .login-container h2 {
-            margin-bottom: 25px;
-            color: #4CAF50;
+        .animated-text {
             font-size: 24px;
-            text-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
             font-weight: bold;
-            color: #ccc;
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #444;
-            border-radius: 6px;
-            box-sizing: border-box;
-            background-color: #333;
-            color: white;
-            font-size: 14px;
-            transition: border 0.3s;
-        }
-        
-        .input-group input:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-        
-        .login-btn {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        .error-message {
-            color: #ff4444;
-            margin: 15px 0;
-            font-weight: bold;
-            text-shadow: 0 0 3px rgba(255, 68, 68, 0.3);
-            display: none;
-        }
-        
-        /* Dashboard Styles */
-        .dashboard {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a1a, #121212);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
             text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
+            position: relative;
         }
         
-        .dashboard-header {
-            margin-bottom: 30px;
-        }
-        
-        .dashboard-title {
-            font-size: 2.5rem;
-            color: #4CAF50;
-            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-            margin-bottom: 10px;
-            animation: gacorGlow 1.5s infinite alternate;
-        }
-        
-        .dashboard-subtitle {
-            font-size: 1rem;
-            color: #888;
-        }
-        
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 300px;
-            margin: 0 auto 30px;
-        }
-        
-        .dashboard-btn {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .dashboard-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .whatsapp-channel {
-            margin: 30px auto;
-            padding: 15px;
-            background-color: #2d2d2d;
-            border-radius: 8px;
-            border: 1px solid #444;
-            max-width: 300px;
-        }
-        
-        .channel-code {
-            font-family: monospace;
-            background-color: #333;
-            padding: 8px 15px;
-            border-radius: 5px;
+        .animated-text span {
             display: inline-block;
-            margin-top: 10px;
-            font-size: 1.2rem;
-            color: #4CAF50;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
         }
         
-        .tutorial-section {
-            background-color: #2d2d2d;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 30px auto;
-            max-width: 600px;
-            text-align: left;
-            border: 1px solid #444;
-        }
-        
-        .tutorial-title {
-            color: #4CAF50;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .tutorial-steps {
-            margin-left: 20px;
-        }
-        
-        .tutorial-steps li {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-        
-        .sensi-message {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: rgba(76, 175, 80, 0.1);
-            border-radius: 8px;
-            border: 1px solid #4CAF50;
-            display: none;
-        }
-        
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(45, 45, 45, 0.7);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 100;
-            border: 1px solid #4CAF50;
-        }
-        
-        .music-control i {
-            font-size: 24px;
-            color: #4CAF50;
-        }
-        
-        @keyframes gacorGlow {
-            from {
-                text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-            }
+        @keyframes fadeInUp {
             to {
-                text-shadow: 0 0 15px rgba(76, 175, 80, 0.8), 0 0 20px rgba(76, 175, 80, 0.6);
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
+        
+        .emoji {
+            font-size: 28px;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Audio Element -->
-    <audio id="bgMusic" loop>
-        <source src="https://files.catbox.moe/xv9mgg.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    
-    <!-- Music Control -->
-    <div class="music-control" id="musicControl" style="display: none;">
-        <i class="fas fa-music"></i>
-    </div>
-
-    <!-- Welcome Screen -->
-    <div class="welcome-screen">
-        <h1 class="welcome-title">WELCOME TO WEB SENSI MODE GACOR 99</h1>
-        <p class="welcome-subtitle">Loading premium features...</p>
-    </div>
-    
-    <!-- Login Page -->
-    <div class="login-page">
-        <div class="login-container">
-            <h2>SILAHKAN LOGIN TUAN</h2>
-            <form id="loginForm">
-                <div class="input-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Masukkan username">
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Masukkan password">
-                </div>
-                
-                <div id="errorMessage" class="error-message">
-                    USERNAME/PASWORD ELU SALAH
-                </div>
-                
-                <button type="button" onclick="checkLogin()" class="login-btn">LOGIN GACOR</button>
-            </form>
-            <div class="login-info">
-                WEB SENSI MODE 99
-            </div>
-        </div>
-    </div>
-    
-    <!-- Dashboard -->
-    <div class="dashboard">
-        <div class="dashboard-header">
-            <h1 class="dashboard-title">WEB SENSI MODE GACOR 99</h1>
-            <p class="dashboard-subtitle">Selamat datang, SENSI MODE GACOR 99!</p>
-        </div>
-        
-        <div class="button-container">
-            <button class="dashboard-btn" id="sensiBtn">SENSI</button>
-            <div id="sensiMessage" class="sensi-message">
-                <p>SEMOGA GACOR KANG 👩‍💻</p>
-                <p>File sedang dibuka...</p>
-            </div>
-        </div>
-        
-        <div class="whatsapp-channel">
-            <h3>SALURAN WHATSAPP:</h3>
-            <div class="channel-code">https://whatsapp.com/channel/0029Vb1BwhXFi8xZnp4pGA3p</div>
-            <p style="margin-top: 15px; color: #aaa;">Gunakan kode di atas untuk akses channel WhatsApp premium</p>
-        </div>
-        
-        <div class="tutorial-section">
-            <h3 class="tutorial-title">TUTORIAL CARA PASANG</h3>
-            <ol class="tutorial-steps">
-                <li><strong>Download file SENSI</strong> dengan klik tombol SENSI di atas</li>
-                <li><strong>Ekstrak file</strong> menggunakan WinRAR atau 7-Zip</li>
-                <li><strong>Buka folder hasil ekstrak</strong> dan cari file instalasi</li>
-                <li><strong>Jalankan file setup.exe</strong> sebagai administrator</li>
-                <li><strong>Ikuti petunjuk instalasi</strong> sampai selesai</li>
-                <li><strong>Restart komputer/device</strong> Anda setelah instalasi selesai</li>
-                <li><strong>Buka aplikasi</strong> dan login dengan akun premium Anda</li>
-                <li>Untuk bantuan lebih lanjut, hubungi kami melalui saluran WhatsApp di atas</li>
-            </ol>
-            <p style="margin-top: 20px; text-align: center; color: #4CAF50; font-weight: bold;">SEMOGA BERHASIL DAN GACOR TERUS! 👩‍💻</p>
-        </div>
-    </div>
+    <div class="animated-text" id="animatedText"></div>
 
     <script>
-        // Audio elements
-        const bgMusic = document.getElementById('bgMusic');
-        const musicControl = document.getElementById('musicControl');
-        let isMusicPlaying = false;
+        const text = "WEB INI MASIH TAHAP PERKEMBANGAN JADI MOHON BERSABAR TUNGGU WEB INI JADI KAMI KAN NGABARIN ANDA👩‍💻";
+        const animatedText = document.getElementById('animatedText');
         
-        // Show login page after welcome screen fades out
-        setTimeout(() => {
-            document.querySelector('.login-page').style.display = 'flex';
-        }, 3500);
-        
-        function checkLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
+        // Membagi teks menjadi karakter-karakter
+        text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char;
             
-            // Validasi login
-            if(username === "SENSI GACOR" && password === "2009") {
-                // Login berhasil - tampilkan dashboard
-                document.querySelector('.login-page').style.display = 'none';
-                document.querySelector('.dashboard').style.display = 'block';
-                
-                // Play music
-                bgMusic.play();
-                isMusicPlaying = true;
-                musicControl.style.display = 'block';
-                
-                // Setup SENSI button
-                setupSensiButton();
-            } else {
-                // Login gagal
-                errorMessage.style.display = 'block';
-                document.getElementById('password').value = '';
-            }
-        }
-        
-        function setupSensiButton() {
-            const sensiBtn = document.getElementById('sensiBtn');
-            const sensiMessage = document.getElementById('sensiMessage');
+            // Atur delay animasi untuk setiap karakter
+            span.style.animationDelay = `${i * 0.05}s`;
             
-            sensiBtn.addEventListener('click', function() {
-                // Show message
-                sensiMessage.style.display = 'block';
-                
-                // Open link in new tab after short delay
-                setTimeout(() => {
-                    window.open('https://www.mediafire.com/file/qwhs0s5q4g6n5yd/Xit_Rege_Vip.7z/file', '_blank');
-                }, 1000);
-            });
-        }
-        
-        // Music control toggle
-        musicControl.addEventListener('click', function() {
-            if(isMusicPlaying) {
-                bgMusic.pause();
-                musicControl.innerHTML = '<i class="fas fa-music"></i><i class="fas fa-slash" style="position: absolute; color: #ff4444;"></i>';
-            } else {
-                bgMusic.play();
-                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+            // Tambahkan class emoji jika karakter adalah emoji
+            if (char === '👩' || char === '‍' || char === '💻') {
+                span.classList.add('emoji');
+                // Gabungkan emoji yang terpisah
+                if (char === '‍' || char === '💻') {
+                    span.style.animationDelay = `${(i-1) * 0.05}s`;
+                }
             }
-            isMusicPlaying = !isMusicPlaying;
-        });
-        
-        // Tambahkan event listener untuk tombol Enter
-        document.getElementById('password').addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                checkLogin();
-            }
+            
+            animatedText.appendChild(span);
         });
     </script>
 </body>
