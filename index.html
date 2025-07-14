@@ -6,68 +6,160 @@
     <title>Web Dalam Pengembangan</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
         
-        .animated-text {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
+        .container {
             text-align: center;
+            color: white;
+        }
+        
+        .title {
+            font-size: 3rem;
+            margin-bottom: 20px;
             position: relative;
-        }
-        
-        .animated-text span {
             display: inline-block;
+        }
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, transparent, #e94560, transparent);
+            animation: underline 2s infinite;
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s forwards;
+            animation: fadeIn 1.5s forwards 1s;
         }
         
-        @keyframes fadeInUp {
+        .progress-container {
+            width: 300px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #e94560, #f9b208);
+            border-radius: 5px;
+            animation: progress 4s infinite alternate;
+        }
+        
+        .credit {
+            margin-top: 40px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            animation: fadeIn 1.5s forwards 2s;
+        }
+        
+        @keyframes underline {
+            0% { transform: scaleX(0); transform-origin: left; }
+            50% { transform: scaleX(1); transform-origin: left; }
+            51% { transform-origin: right; }
+            100% { transform: scaleX(0); transform-origin: right; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* Animasi partikel */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+        
+        @keyframes float {
             to {
-                opacity: 1;
-                transform: translateY(0);
+                transform: translateY(-100vh);
             }
-        }
-        
-        .emoji {
-            font-size: 28px;
         }
     </style>
 </head>
 <body>
-    <div class="animated-text" id="animatedText"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <h1 class="title">WEB DALAM PENGEMBANGAN</h1>
+        <p class="message">Mohon ditunggu ya sampai web ini siap</p>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        <p class="credit">By: Fajar Kurniawan</p>
+    </div>
 
     <script>
-        const text = "WEB INI MASIH TAHAP PERKEMBANGAN JADI MOHON BERSABAR TUNGGU WEB INI JADI KAMI KAN NGABARIN ANDA👩‍💻";
-        const animatedText = document.getElementById('animatedText');
-        
-        // Membagi teks menjadi karakter-karakter
-        text.split('').forEach((char, i) => {
-            const span = document.createElement('span');
-            span.textContent = char;
+        // Membuat partikel animasi
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
             
-            // Atur delay animasi untuk setiap karakter
-            span.style.animationDelay = `${i * 0.05}s`;
-            
-            // Tambahkan class emoji jika karakter adalah emoji
-            if (char === '👩' || char === '‍' || char === '💻') {
-                span.classList.add('emoji');
-                // Gabungkan emoji yang terpisah
-                if (char === '‍' || char === '💻') {
-                    span.style.animationDelay = `${(i-1) * 0.05}s`;
-                }
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Ukuran acak
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posisi acak
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Animasi durasi acak
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Delay acak
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                // Opasitas acak
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                particlesContainer.appendChild(particle);
             }
-            
-            animatedText.appendChild(span);
-        });
+        }
+        
+        // Jalankan saat halaman dimuat
+        window.onload = createParticles;
     </script>
 </body>
 </html>
